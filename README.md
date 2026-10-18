@@ -30,7 +30,7 @@ VectorVision is a full-stack mathematical tool that demonstrates how digital ima
 
 ## 🚀 Live Demo
 Access the live mathematical workstation here:
-**[https://vectorvision-frontend.onrender.com/]**
+**https://vectorvision-frontend.onrender.com/**
 
 *(Note: The free Render backend spins down after inactivity. The first transformation might take 30-60 seconds to wake up the server.)*
 
