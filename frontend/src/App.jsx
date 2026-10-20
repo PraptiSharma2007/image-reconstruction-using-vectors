@@ -51,13 +51,15 @@ export default function App() {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    let endpoint = 'http://localhost:8000/api/compress';
+    const BACKEND_URL = 'https://YOUR_RENDER_BACKEND_NAME.onrender.com';
+
+    let endpoint = `${BACKEND_URL}/api/compress`;
 
     if (mode === 'compress') {
       formData.append('percentage', variance);
-      formData.append('target_kb', 0); // Always 0 since target size UI is removed
+      formData.append('target_kb', 0);
     } else {
-      endpoint = 'http://localhost:8000/api/upscale';
+      endpoint = `${BACKEND_URL}/api/upscale`;
       formData.append('scale', upscaleMultiplier);
     }
 
