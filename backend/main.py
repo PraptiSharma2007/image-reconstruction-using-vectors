@@ -40,14 +40,21 @@ class MathProcessingResponse(BaseModel):
 # UTILITY FUNCTIONS
 # ==========================================
 
-def load_image_to_numpy(file_bytes: bytes) -> Tuple[np.ndarray, str]:
-    """Decodes raw bytes into a floating-point RGB NumPy tensor [0, 255]."""
+def load_image_to_numpy(file_bytes: bytes, max_dim: int = 800) -> Tuple[np.ndarray, str]:
+    """Decodes raw bytes, safely downscales massive images, and converts to a NumPy tensor."""
     try:
         pil_img = Image.open(io.BytesIO(file_bytes))
         format_str = pil_img.format if pil_img.format else "JPEG"
-        # Standardize to RGB space (drops alpha channel if present for clean 3D tensors)
+
+        # Standardize to RGB space
         if pil_img.mode != "RGB":
             pil_img = pil_img.convert("RGB")
+
+        # THE SPEED FIX: Prevent cloud CPU bottleneck by limiting matrix size
+        if max(pil_img.size) > max_dim:
+            # Maintain aspect ratio while capping the longest edge to max_dim
+            pil_img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+
         return np.array(pil_img, dtype=np.float64), format_str
     except Exception as e:
         raise HTTPException(
