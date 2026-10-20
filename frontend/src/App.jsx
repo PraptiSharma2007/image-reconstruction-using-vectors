@@ -51,7 +51,7 @@ export default function App() {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    const BACKEND_URL = 'https://YOUR_RENDER_BACKEND_NAME.onrender.com';
+    const BACKEND_URL = 'https://image-reconstruction-using-vectors.onrender.com';
 
     let endpoint = `${BACKEND_URL}/api/compress`;
 
